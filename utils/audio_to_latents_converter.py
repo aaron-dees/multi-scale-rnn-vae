@@ -7,7 +7,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 def load_audio(path, target_sr):
     wav, sr = torchaudio.load(path)   # [C, N]
-    
+
     # is this the correct way to mix to mono??
     wav = wav.mean(dim=0, keepdim=True)  # mono
 
@@ -29,12 +29,11 @@ def encode_audio_to_latents(
 ):
     wav = wav.to(device)
 
-
     # for i in range(0, wav.shape[0], batch_size):
     z = encoder.encode(wav)   # [1, 64, T]
     # latents.append(z.cpu())
 
-    return z  # [1, 64, T]
+    return z[0,:,:]  # [64, T]
 
 def convert_audio_folder_to_latents(
     audio_dir,
