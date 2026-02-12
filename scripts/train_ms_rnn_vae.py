@@ -74,7 +74,8 @@ def train(cfg, latent_dir, save_dir):
             optimizer.zero_grad()
 
             outputs = model(z, teacher_forcing=True)
-            loss, recon, kl = vae_loss(z, outputs, beta=cfg.beta)
+            beta = min(1.0, epoch / 200) * cfg.beta
+            loss, recon, kl = vae_loss(z, outputs, beta=beta)
 
             loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), 1.0)

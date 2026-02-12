@@ -93,7 +93,7 @@ def load_audio_folder(folder: str,
 
 sr = 44100
 # audio, file_list = load_audio_folder('/Users/adees/Code/neural_granular_synthesis/datasets/ESC-50_EvalSet/thunder', sr=sr)
-audio, file_list = load_audio_folder('/Users/adees/Code/music2latent_tests/test_in', sr=sr)
+audio, file_list = load_audio_folder('/Users/adees/Code/multi-scale-rnn-vae/test_in', sr=sr)
 
 from music2latent import EncoderDecoder
 encdec = EncoderDecoder()
@@ -104,6 +104,6 @@ for i, src_path in enumerate(file_list):
 
     base = os.path.splitext(os.path.basename(src_path))[0]
     # out_path = f"/Users/adees/Code/music2latent_tests/m2l_recon/thunder/{base}.wav"
-    out_path = f"/Users/adees/Code/music2latent_tests/test_file.wav"
+    out_path = f"/Users/adees/Code/multi-scale-rnn-vae/test_out/{base}.wav"
 
     torchaudio.save(out_path, wv_rec, sr)

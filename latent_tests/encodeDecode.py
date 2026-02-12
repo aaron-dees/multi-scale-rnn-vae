@@ -22,7 +22,7 @@ print(f"Encoded latent representation with shape: {latent.shape}")
 wv_rec = encdec.decode(latent)
 print(f"Decoded waveform with shape: {wv_rec.shape}")
 
-out_path = "/Users/adees/Code/music2latent_tests/decoded.wav"
+out_path = "/Users/adees/Code/multi-scale-rnn-vae/decoded.wav"
 
 # Ensure shape is (samples,) or (samples, channels)
 # wv_out = np.asarray(wv_rec, dtype="float32")

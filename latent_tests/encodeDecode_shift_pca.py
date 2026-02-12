@@ -202,9 +202,9 @@ plt.close()
 wv_rec = encdec.decode(latent)
 wv_rec_shift = encdec.decode(latent_shift)
 wv_rec_toward = encdec.decode(latent_toward)
-wv_target = encdec.decode(target_latent)
+wv_rec_target = encdec.decode(target_latent)
 
-wv_rec = wv_target
+wv_rec = wv_rec_target
 
 print(f"Decoded waveform with shape: {wv_rec.shape}")
 try:
@@ -273,10 +273,10 @@ wv_rec_shift = encdec.decode(latent_shift)
 wv_rec_toward = encdec.decode(latent_toward)
 print(f"Decoded waveform with shape: {wv_rec.shape}")
 
-out_path = "/Users/adees/Code/music2latent_tests/decoded.wav"
-out_path_shift = "/Users/adees/Code/music2latent_tests/decoded_shift.wav"
-out_path_toward = "/Users/adees/Code/music2latent_tests/decoded_toward.wav"
-out_path_target = "/Users/adees/Code/music2latent_tests/target.wav"
+out_path = "/Users/adees/Code/multi-scale-rnn-vae/decoded.wav"
+out_path_shift = "/Users/adees/Code/multi-scale-rnn-vae/decoded_shift.wav"
+out_path_toward = "/Users/adees/Code/multi-scale-rnn-vae/decoded_toward.wav"
+out_path_target = "/Users/adees/Code/multi-scale-rnn-vae/target.wav"
 
 # Ensure shape is (samples,) or (samples, channels)
 # wv_out = np.asarray(wv_rec, dtype="float32")

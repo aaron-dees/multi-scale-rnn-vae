@@ -71,7 +71,7 @@ interp_latents = torch.from_numpy(interp_latents.astype("float32"))
 
 wv_rec = encdec.decode(interp_latents)
 
-out_path = "/Users/adees/Code/music2latent_tests/interpolate.wav"
+out_path = "/Users/adees/Code/multi-scale-rnn-vae/interpolate.wav"
 
 # Ensure shape is (samples,) or (samples, channels)
 # wv_out = np.asarray(wv_rec, dtype="float32")

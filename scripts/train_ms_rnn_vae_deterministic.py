@@ -16,6 +16,7 @@ from models.dataloaders import LatentTextureDataset
 from models.multi_scale_rnn_vae import MultiScaleRNNVAE_deterministic
 from models.loss_functions import vae_loss_mse
 from scripts.config import Config
+from utils.utilities import plot_latent_pca
 
 from music2latent import EncoderDecoder
 
@@ -73,7 +74,10 @@ def train(cfg, latent_dir, save_dir):
 
             optimizer.zero_grad()
 
-            outputs = model(z, teacher_forcing=True)
+            # decay_epochs = 1000
+            # p = max(0.3, 1.0 - epoch / decay_epochs)
+            p=1.0
+            outputs = model(z, teacher_forcing=True, teacher_forcing_prob=p)
             loss, recon, kl = vae_loss_mse(z, outputs, beta=cfg.beta)
 
             loss.backward()
@@ -102,14 +106,18 @@ def train(cfg, latent_dir, save_dir):
         )
 
 
-        if (epoch + 1) % 25 == 0:
-            for z in loader:
-                z_hat, _, _ = model(z, teacher_forcing=True)
-                break  # take first batch only
+        if (epoch + 1) % 10 == 0:
             writer.add_scalar("Loss/Train", avg_loss, epoch+1)
             writer.add_scalar("Recon/Train", avg_recon, epoch+1)
             writer.add_scalar("KL/Train", avg_kl, epoch+1)
+
+        if (epoch + 1) % 100 == 0:
+            for z in loader:
+
+                z_hat, _, _ = model(z, teacher_forcing=False, teacher_forcing_prob=p)
+                break  # take first batch only
             # output_latent = model.reparameterize(outputs_recon[0], outputs_recon[1])
+            plot_latent_pca(z.detach(), z_hat.detach(), epoch+1)
             recon = codec.decode(z_hat)
             orig = codec.decode(z)
             writer.add_audio("Recon/GenLatent", recon, sample_rate=44100, global_step=epoch+1)

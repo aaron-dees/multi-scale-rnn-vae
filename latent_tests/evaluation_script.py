@@ -92,9 +92,9 @@ def load_audio_folder(folder: str,
 AUDIO_PATH = '/Users/adees/Code/neural_granular_synthesis/datasets/ESC-50_EvalSet/thunder'
 # AUDIO_PATH = '/Users/adees/Code/neural_granular_synthesis/datasets/ESC-50_EvalSet/thunder'
 # AUDIO_PATH = '/Users/adees/Code/neural_granular_synthesis/datasets/ESC-50_EvalSet/rain'
-RECON_PATH = '/Users/adees/Code/music2latent_tests/m2l_recon/thunder'
-# RECON_PATH = '/Users/adees/Code/music2latent_tests/m2l_recon/sea_waves'
-# RECON_PATH = '/Users/adees/Code/music2latent_tests/m2l_recon/thunder'
+RECON_PATH = '/Users/adees/Code/multi-scale-rnn-vae/m2l_recon/thunder'
+# RECON_PATH = '/Users/adees/Code/multi-scale-rnn-vae/m2l_recon/sea_waves'
+# RECON_PATH = '/Users/adees/Code/multi-scale-rnn-vae/m2l_recon/thunder'
 
 # AUDIO_PATH = './test_in'
 # RECON_PATH = './test_out'
@@ -118,9 +118,9 @@ for i, src_path in enumerate(files):
 
     aura_spec_loss = mrstft(torch.from_numpy(recon).unsqueeze(0).unsqueeze(0), torch.from_numpy(orig)[:recon.shape[-1]].unsqueeze(0).unsqueeze(0))
     spec_loss = spec_dist(torch.from_numpy(recon).unsqueeze(0), torch.from_numpy(orig[:recon.shape[-1]]).unsqueeze(0))
-    torchaudio.save(f'/Users/adees/Code/music2latent_tests/fake_audio/audio.wav', torch.from_numpy(recon).unsqueeze(0), sr)
-    torchaudio.save(f"/Users/adees/Code/music2latent_tests/real_audio/audio.wav", torch.from_numpy(orig[:recon.shape[-1]]).unsqueeze(0), sr)
-    fad_score = frechet.score(f'/Users/adees/Code/music2latent_tests/real_audio', f'/Users/adees/Code/music2latent_tests/fake_audio', dtype="float32")
+    torchaudio.save(f'/Users/adees/Code/multi-scale-rnn-vae/fake_audio/audio.wav', torch.from_numpy(recon).unsqueeze(0), sr)
+    torchaudio.save(f"/Users/adees/Code/multi-scale-rnn-vae/real_audio/audio.wav", torch.from_numpy(orig[:recon.shape[-1]]).unsqueeze(0), sr)
+    fad_score = frechet.score(f'/Users/adees/Code/multi-scale-rnn-vae/real_audio', f'/Users/adees/Code/multi-scale-rnn-vae/fake_audio', dtype="float32")
 
     aura_loss_list.append(aura_spec_loss.item())
     spec_loss_list.append(spec_loss.item())
