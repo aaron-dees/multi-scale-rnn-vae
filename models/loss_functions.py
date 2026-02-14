@@ -161,3 +161,18 @@ def vae_prob_loss(z_slow, outputs, beta=1.0, w_nll=1.0, w_vel=1.0, w_var=0.0):
     recon = w_nll * nll + w_vel * vel + w_var * var
 
     return  recon + beta * kl, recon, nll, vel, var, kl
+
+def fast_residual_nll_loss(z_fast_target, mu, logvar, w_vel: float = 0.0):
+    """
+    Training loss for the fast residual model.
+    Base: Gaussian NLL on z_fast.
+    Optional: velocity MSE on the *mean* trajectory (helps dynamics).
+    """
+    nll = gaussian_nll_diag(z_fast_target, mu, logvar, reduce="mean")
+
+    if w_vel > 0.0:
+        v_mu = mu[:, :, 1:] - mu[:, :, :-1]
+        v_gt = z_fast_target[:, :, 1:] - z_fast_target[:, :, :-1]
+        vel = F.mse_loss(v_mu, v_gt)
+        return nll + w_vel * vel, {"nll": nll.item(), "vel": vel.item()}
+    return nll, {"nll": nll.item()}
